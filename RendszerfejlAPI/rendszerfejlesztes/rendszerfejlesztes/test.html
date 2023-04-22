@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+</head>
+<body>
+<!--    <button onclick="test()">click me</button>-->
+    <p id="filler1"></p>
+    <p id="filler2"></p>
+</body>
+</html>
+
+<script>
+    let token;
+
+    async function postData(url = "", data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+        return response.text(); // parses JSON response into native JavaScript objects
+    }
+
+    async function getData(url = "") {
+        // Default options are marked with *
+
+        const response = await fetch(url, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        return response.text(); // parses JSON response into native JavaScript objects
+    }
+
+        postData("https://dotnetappsqldbrendszerfejlesztes.azurewebsites.net/api/Authenticate", {
+            "username": "Admin",
+            "password": "1234"
+        }).then((data) => {
+            token = data; // JSON data parsed by `data.json()` call
+
+            getData("https://dotnetappsqldbrendszerfejlesztes.azurewebsites.net/api/Alkatresz").then((data) => {
+                document.getElementById("filler1").innerText = data; // JSON data parsed by `data.json()` call
+            });
+        });
+</script>
