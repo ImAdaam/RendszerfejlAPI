@@ -57,7 +57,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Ellenőrzés</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <div class="loader"></div>
             </div>
         </div>
@@ -86,6 +86,8 @@
     }
 
     function on_Submit(){
+        $("#staticBackdrop").modal('toggle');
+
         let username = document.getElementById("Login").value;
         let password = document.getElementById("Password").value
         let array = {
@@ -99,15 +101,12 @@
                 if ( data != 'Invalid credentials'){
                     sessionStorage.setItem("token", data);
 
-                    $("staticBackdrop").modal('toggle');
+                    $("#staticBackdrop").modal('toggle');
                     location.replace('index.html');
                 }else{
-                    $("staticBackdrop").modal('toggle');
+                    $("#staticBackdrop").modal('toggle');
                     alert("Rossz felhasználónév vagy jelszó!");
                 }
             });
-
-        $("staticBackdrop").modal('open');
-
     }
 </script>
